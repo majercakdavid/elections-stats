@@ -8,7 +8,9 @@
     "build": "tsc -p .",
     "build:live": "nodemon --watch 'src/**/*.ts' --exec ts-node src/index.ts",
     "typeorm": "ts-node ./node_modules/typeorm/cli.js",
-    "test": "mocha -r ts-node/register ./tests/**/*.test.ts --recursive"
+    "test": "mocha -r ts-node/register ./tests/**/*.test.ts --recursive",
+    "seed-test": "ts-node src/seed.ts --test",
+    "seed-prod": "ts-node src/seed.ts"
   },
   "keywords": [],
   "author": "",
