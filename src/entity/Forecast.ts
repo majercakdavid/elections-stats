@@ -1,4 +1,5 @@
 import { Column, Entity, Generated, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm";
+import {ColumnNumericTransformer} from "../transformers/ColumnNumericTransformer";
 import Party from "./Party";
 import UserForecast from "./UserForecast";
 
@@ -14,7 +15,7 @@ export default class Forecast {
     @JoinColumn()
     party: Party;
 
-    @Column('numeric', {precision: 4, scale: 1})
+    @Column('numeric', {precision: 4, scale: 1, transformer: new ColumnNumericTransformer()})
     percentage: number;
 
     @Column({default: true})
