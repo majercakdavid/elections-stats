@@ -1,3 +1,5 @@
 node_modules
-*.env
-.idea/
+*.env*
+.idea
+lib
+package-lock.json
