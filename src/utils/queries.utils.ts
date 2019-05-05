@@ -11,3 +11,12 @@ export const totalStatsQuery = 'SELECT "partyId" as "id", "name", "color", SUM(p
     'JOIN "party" AS "p" ON "p"."id" =  "f"."partyId"\n' +
     'GROUP BY "partyId", "name", "color"\n' +
     'ORDER BY "partyId";';
+
+export const rankingQuery = 'SELECT "nickname",\n' +
+    '\tforecast."partyId", \n' +
+    '\tforecast."percentage"\n' +
+    'FROM forecast\n' +
+    '\tJOIN user_forecast\n' +
+    '\tON user_forecast."id" = forecast."userForecastId"\n' +
+    'WHERE forecast."version" = user_forecast."latestVersion"\n' +
+    'AND forecast."valid";';

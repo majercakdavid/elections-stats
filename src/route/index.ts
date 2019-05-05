@@ -1,7 +1,8 @@
 import express from 'express';
 import { getManager} from 'typeorm';
-import {regionStatsQuery, totalStatsQuery} from "../utils/queries.utils";
-import {formatDataRegions} from "../utils/stats.utils";
+import {IElectionResults} from "../interface/IElectionResults";
+import {rankingQuery, regionStatsQuery, totalStatsQuery} from "../utils/queries.utils";
+import {formatDataRegions, getRanking, validateELectionsResults} from "../utils/stats.utils";
 
 const router = require('express').Router();
 
@@ -11,18 +12,10 @@ router.get('/stats', async (req: express.Request, res: express.Response) => {
             () => {
                 return null;
             },
-        ).then(
-            value => {
-                return value;
-            },
         );
         const dataTotal = await entityManager.query(totalStatsQuery).catch(
             () => {
                 return null;
-            },
-        ).then(
-            value => {
-                return value;
             },
         );
 
@@ -38,7 +31,25 @@ router.get('/stats', async (req: express.Request, res: express.Response) => {
 });
 
 router.get('/final-results', async (req: express.Request, res: express.Response) => {
-    res.status(200).send('Not implemented yet');
+    const results: IElectionResults = req.body;
+
+    if (!validateELectionsResults(results.results)) {
+        res.status(400).send('problem with the election results.');
+        return;
+    }
+
+    await getManager().transaction(async entityManager => {
+        const dataRanking = await entityManager.query(rankingQuery).catch(
+            () => null,
+        );
+
+        if (!dataRanking) {
+            res.status(500).send("problem retrieving ranking!");
+            return;
+        }
+        const leadboard = getRanking(results.results, dataRanking);
+        res.json({message: "ok", data: leadboard});
+    });
 });
 
 export default router;
