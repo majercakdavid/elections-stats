@@ -1,7 +1,7 @@
 import * as chai from 'chai';
 import 'mocha';
 import * as request from 'supertest';
-import app from '../../src/index';
+import app from '../../src';
 
 const expect = chai.expect;
 const agent = request.agent(app);

@@ -63,7 +63,6 @@ export function validateELectionsResults(results: IElectionResult[]): boolean {
         }
         sum += result.percentage;
     }
-    console.log(sum);
     return sum === 100;
 }
 ////////////////////////////////////////////

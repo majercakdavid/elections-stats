@@ -11,17 +11,13 @@ const app = express();
 const port = 3000;
 
 // cors
-app.use(
-    cors({
-        origin: '*',
-    }),
-);
+app.use(cors());
 
 // createConnection method will automatically read connection options
 // from your ormconfig file or environment variables
 createConnection().then(connection => {
+
     console.log('Successfully connected to PG database!');
-    console.log('Entities: ' + connection.entityMetadatas.map(v => v.name));
 
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: true }));
@@ -30,7 +26,7 @@ createConnection().then(connection => {
     app.get('/', (req, res) => res.status(200).send("Election API"));
     app.get('/*', (req, res) => res.status(404).send("Resources Not Found"));
 
-    const server = app.listen(port, 'localhost', () => {
+    const server = app.listen(port, '0.0.0.0', () => {
         if (server !== null) {
             console.log("app running on port.", server.address());
         }
