@@ -20,7 +20,7 @@ router.get('/stats', async (req: express.Request, res: express.Response) => {
         );
 
         if (!dataTotal || !dataRegions) {
-            res.status(500).send("problem retrieving stats!");
+            res.status(500).send("problema nel recupero delle statistiche.");
             return;
         }
         const result = formatDataRegions(dataRegions);
@@ -34,7 +34,7 @@ router.get('/final-results', async (req: express.Request, res: express.Response)
     const results: IElectionResults = req.body;
 
     if (!validateELectionsResults(results.results)) {
-        res.status(400).send('problem with the election results.');
+        res.status(400).send('risultato non valido.');
         return;
     }
 
@@ -44,7 +44,7 @@ router.get('/final-results', async (req: express.Request, res: express.Response)
         );
 
         if (!dataRanking) {
-            res.status(500).send("problem retrieving ranking!");
+            res.status(500).send("impossibile recuperare le statistiche.");
             return;
         }
         const leadboard = getRanking(results.results, dataRanking);
