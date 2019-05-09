@@ -10,7 +10,7 @@ const DBParties = [
         id: "CPI",
         icon_url: "https://s3-eu-west-1.amazonaws.com/politiche/loghi/007DESTREUNITECASAPOUNDAEMN_SIE.PNG",
         color: "rgba(0, 0, 0, 0.8)",
-        description: "Fasci",
+        description: "",
     },
     {
         name: "Partito Pirata",
