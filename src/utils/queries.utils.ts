@@ -1,10 +1,8 @@
-export const regionStatsQuery = 'SELECT "uf"."region", "f"."partyId" AS "id", "p"."name", "p"."color", SUM("f"."percentage")/"rc"."count" AS "percentage" from "forecast" AS "f"\n' +
-    'JOIN "user_forecast" AS "uf" ON "f"."userForecastId" = "uf"."id" AND "f"."version" = "uf"."latestVersion"\n' +
-    'JOIN (SELECT "region", COUNT(*) FROM "user_forecast" GROUP BY "region") AS "rc" ON "rc"."region" = "uf"."region"\n' +
-    'JOIN "party" AS "p" ON "p"."id" =  "f"."partyId"\n' +
-    'WHERE "f"."valid" = true\n' +
-    'GROUP BY "uf"."region", "f"."partyId", "rc"."count", "p"."name", "p"."iconUrl", "p"."color", "p"."description"\n' +
-    'ORDER BY "uf"."region", "f"."partyId"';
+export const regionStatsQuery = 'SELECT "region", "id", "name", "color", "percentage" FROM party\n' +
+    'JOIN (SELECT sum(percentage)/count(uf."id") as percentage, count(uf."id"), "region", "partyId" FROM forecast AS f\n' +
+    'JOIN "user_forecast" AS "uf" ON "f"."userForecastId" = "uf"."id" AND "f"."version" = "uf"."latestVersion" AND f."valid" = true\n' +
+    'GROUP BY "region", "partyId") AS stats ON party."id" = "partyId"\n' +
+    'ORDER BY "region", "id"';
 
 export const totalStatsQuery = 'SELECT "partyId" as "id", "name", "color", SUM(percentage)/"p"."count" as "percentage" FROM "forecast" AS "f"\n' +
     'JOIN "user_forecast" AS "uf" \n' +
