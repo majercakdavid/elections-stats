@@ -20,4 +20,7 @@ export default class Forecast {
 
     @Column({default: true})
     valid: boolean;
+
+    @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
+    time: string;
 }
